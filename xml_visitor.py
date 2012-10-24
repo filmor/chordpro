@@ -26,10 +26,24 @@ class XmlVisitor(object):
         self._last_node = None
         self._verse_count = 0
 
+    def _fix_last_lines(self):
+        if not self._lines is None:
+            for el in reversed(self._lines):
+                if el.tail is None:
+                    if el.tag == "chord":
+                        el.tail = " "
+                        break
+                    elif el.tag == "br":
+                        self._lines.remove(el)
+                else:
+                    break
+
     def _new_verse(self, name=None):
         if name is None:
             self._verse_count += 1
             name = "v%d" % self._verse_count
+
+        self._fix_last_lines()
 
         self._verse = et.SubElement(self._lyrics_node, "verse", {"name": name})
         self._lines = et.SubElement(self._verse, "lines")
@@ -80,6 +94,7 @@ class XmlVisitor(object):
         self._append_node("br")
 
     def result(self):
+        self._fix_last_lines()
         return et.tostring(self._root, encoding="utf-8", pretty_print="True",
                            xml_declaration=True)
 
