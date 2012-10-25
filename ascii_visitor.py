@@ -46,7 +46,11 @@ class AsciiVisitor(object):
             chord = chord if chord else ""
             just = len(line) - len(line_above) + len(chord)
             line_above += chord.rjust(max(just,0))
-            line += text + (len(chord) - len(text) + 1) * " "
+
+            # TODO: Skip for last chord
+            line += text + (len(chord) - len(text) + 1) * \
+                    (" " if len(text) == 0 or text[-1] == " " else "-")
+
         self._append_lines(line_above, line)
 
     def result(self):
@@ -54,5 +58,5 @@ class AsciiVisitor(object):
         line = "+" + "-" * (len(title) + 2) + "+"
 
         res = [line, "| " + title + " |", line, ""]
-        return "\n".join(res + self._result)
+        return "\n".join(res + self._result) + "\n"
 
