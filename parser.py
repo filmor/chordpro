@@ -1,4 +1,4 @@
-__all__ = ["parse", "dispatch", "show"]
+__all__ = ["parse", "dispatch", "show", "shorten", "lengthen"]
 
 def my_partition(string, sep):
     a, b, c = string.partition(sep)
@@ -14,6 +14,10 @@ shorten_map = {
     "start_of_tab": "sot",
     "end_of_tab": "eot"
 }
+shorten = lambda name: lengthen_map.get(name, name)
+
+lengthen_map = dict((v, k) for k, v in shorten_map.iteritems())
+lengthen = lambda name: lengthen_map.get(name, name)
 
 def parse_line(string):
     line = ""

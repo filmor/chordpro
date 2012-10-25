@@ -1,10 +1,13 @@
+from parser import shorten, lengthen
 
 class ChordproVisitor(object):
-    def __init__(self):
+    def __init__(self, short_directives=False):
         self._result = []
+        self._transform = shorten if short_directives else lengthen
 
     def visit(self, command, *args):
-        self._result.append("{%s}" % (":".join((command,) + args)))
+        self._result.append(
+                "{%s}" % (":".join((self._transform(command),) + args)))
 
     def visit_comment(self, text):
         self._result.append("# %s" % text)
