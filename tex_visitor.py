@@ -2,6 +2,13 @@
 
 from string import Template
 
+def indicate_last(iterable):
+    i = 0
+    l = len(iterable)
+    for x in iterable:
+        i += 1
+        yield i == l, x
+
 class _MyTemplate(Template):
     delimiter = "§"
 
@@ -28,17 +35,30 @@ class TexVisitor(object):
     def visit_eoc(self):
         self._result.append("\\end{textit}")
 
+    def visit_nl(self):
+        self._result.append("")
+
     def visit_line(self, chords):
         line = []
-        for chord, text in chords:
+        for last, (chord, text) in indicate_last(chords):
             if chord is None:
                 line.append(text)
             else:
-                # Heuristics
-                if len(chord) >= len(text):
-                    chord += "_"
+                if text.isspace() or len(text) == 0:
+                    line.append("\guitarChord{%s}%s" %
+                            (chord + "|", "{ }" if last else " ")
+                            )
+                else:
+                    if len(chord) >= len(text.strip()):
+                        if not text[-1].isspace():
+                            if not last:
+                                chord += "_"
+                                text = "{%s}" % text
+                        else:
+                            chord += "|"
+                            text = "{%s}" % text
 
-                line.append("[%s]{%s}" % (chord, text if len(text) else " "))
+                    line.append("\guitarChord{%s}%s" % (chord, text))
 
         self._result.append("".join(line))
 
@@ -46,6 +66,7 @@ class TexVisitor(object):
        return self._template.substitute(
                block="\n".join(self._result),
                title=self._title,
-               subtitle=self._subtitle
+               subtitle=self._subtitle,
+               diagrams="",
                )
 
