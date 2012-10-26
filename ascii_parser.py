@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from re import compile
 from itertools import izip
 
