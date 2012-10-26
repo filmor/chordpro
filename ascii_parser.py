@@ -38,6 +38,9 @@ def parse_verse(s):
 if __name__ == '__main__':
     from chordpro_visitor import ChordproVisitor
     from parser import show
-    from sys import stdin
+    from sys import stdin, stdout
 
-    print show(parse_verse(stdin.read()), ChordproVisitor)
+    inp = unicode(stdin.read(), encoding="utf-8")
+    out = show(parse_verse(inp), ChordproVisitor).encode("utf-8")
+
+    stdout.write(out)
