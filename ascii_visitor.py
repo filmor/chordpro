@@ -54,9 +54,12 @@ class AsciiVisitor(object):
         self._append_lines(line_above, line)
 
     def result(self):
-        title = self._title + " - " + self._subtitle
-        line = "+" + "-" * (len(title) + 2) + "+"
+        res = []
+        if self._title != "" and self._subtitle != "":
+            title = self._title + " - " + self._subtitle
+            line = "+" + "-" * (len(title) + 2) + "+"
 
-        res = [line, "| " + title + " |", line, ""]
+            res = [line, "| " + title + " |", line, ""]
+
         return "\n".join(res + self._result) + "\n"
 

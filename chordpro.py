@@ -19,7 +19,8 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    file = codecs.open(args.filename, encoding='utf-8')
+    file = codecs.open(args.filename, encoding='utf-8') \
+            if args.filename != "-" else sys.stdin
     out = open(args.output, "w") if args.output != "-" else sys.stdout
 
     visitor = {
