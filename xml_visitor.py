@@ -25,6 +25,7 @@ class XmlVisitor(object):
         self._lines = None
         self._last_node = None
         self._verse_count = 0
+        self._chorus_count = 0
 
     def _fix_last_lines(self):
         if not self._lines is None:
@@ -78,7 +79,8 @@ class XmlVisitor(object):
         pass
 
     def visit_soc(self):
-        self._new_verse("c")
+        self._chorus_count += 1
+        self._new_verse("c%d" % self._chorus_count)
 
     def visit_eoc(self):
         self._new_verse()
