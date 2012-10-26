@@ -28,7 +28,7 @@ def parse_line(string):
     if string.startswith('{'):
         s = string.strip('{} ').split(":", 1)
         directive = s[0]
-        args = tuple(s[1].strip("{} ").split(":")) if len(s) == 2 else ()
+        args = (s[1].strip("{} "),) if len(s) == 2 else ()
         directive = shorten_map.get(directive, directive)
         return ("directive", directive) + args
     if not string.startswith('['):
