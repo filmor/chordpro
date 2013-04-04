@@ -66,7 +66,7 @@ def dispatch(parsed, visitor):
         type = el[0]
         val = el[1:]
         if type == "directive":
-            visit(val[0], *val[1:])
+            visit(lengthen(val[0]), *val[1:])
         elif type == "comment":
             visit("comment", *val)
         elif type == "line":
