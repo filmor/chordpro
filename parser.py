@@ -1,3 +1,5 @@
+import re
+
 __all__ = ["parse", "dispatch", "show", "shorten", "lengthen"]
 
 def my_partition(string, sep):
@@ -26,7 +28,7 @@ def parse_line(string):
     if string.startswith('#'):
         return ("comment", string[1:])
     if string.startswith('{'):
-        s = string.strip('{} ').split(":", 1)
+        s = re.split('[: ]', string.strip('{} '), 1)
         directive = s[0]
         args = (s[1].strip("{} "),) if len(s) == 2 else ()
         directive = shorten_map.get(directive, directive)
