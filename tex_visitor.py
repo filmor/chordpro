@@ -21,6 +21,7 @@ class TexVisitor(object):
         self._template = _MyTemplate(template)
         self._title = ""
         self._subtitle = ""
+        self._intab = False
 
     def visit_t(self, title):
         self._title = title
@@ -41,9 +42,11 @@ class TexVisitor(object):
         self._result.append("\\end{textit}")
 
     def visit_sot(self):
+        self._intab = True
         self._result.append("\\begin{verbatim}")
 
     def visit_eot(self):
+        self._intab = False
         self._result.append("\\end{verbatim}")
 
     def visit_nl(self):
@@ -71,7 +74,7 @@ class TexVisitor(object):
 
                     line.append("\guitarChord{%s}%s" % (chord, text))
 
-        self._result.append("".join(line))
+        self._result.append("".join(line) + ('' if self._intab else '\\\\'))
 
     def result(self):
        return self._template.substitute(
