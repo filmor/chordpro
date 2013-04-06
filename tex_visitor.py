@@ -60,8 +60,10 @@ class TexVisitor(object):
             else:
                 if text.isspace() or len(text) == 0:
                     line.append("\guitarChord{%s}%s" %
-                            (chord + "|", "{ }" if last else " ")
+                            (chord + "|", "{ }" * len(text))
                             )
+                    if last:
+                        line.append('\ ')
                 else:
                     if len(chord) >= len(text.strip()):
                         if not text[-1].isspace():
