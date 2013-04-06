@@ -19,6 +19,8 @@ class TexVisitor(object):
             template = open("template.tex").read()
         self._result = []
         self._template = _MyTemplate(template)
+        self._title = ""
+        self._subtitle = ""
 
     def visit_t(self, title):
         self._title = title
