@@ -14,8 +14,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Chordpro converter")
 
     parser.add_argument('filename')
-    parser.add_argument('--format', default="ascii")
-    parser.add_argument('--output', default="-")
+    parser.add_argument('--format', '-f', default="ascii")
+    parser.add_argument('--output', '-o', default="-")
+    parser.add_argument('--transpose', '-t', default=0, type=int)
 
     args = parser.parse_args()
 
@@ -31,5 +32,8 @@ if __name__ == '__main__':
         }
 
     parsed = parse(file)
+
+    if args.transpose != 0:
+        parsed = show(parsed, TransposeVisitor, args.transpose)
 
     out.write(show(parsed, visitor[args.format]))

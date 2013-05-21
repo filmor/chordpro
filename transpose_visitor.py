@@ -1,8 +1,8 @@
 from note import *
-from re import compile
+from re import compile as rcompile
 
 class TransposeVisitor(object):
-    chord_regex = compile(r"[A-G](?:#|b)?")
+    chord_regex = rcompile(r"[A-G](?:#|b)?")
 
     def __init__(self, transpose):
         self._transpose = transpose
@@ -16,14 +16,11 @@ class TransposeVisitor(object):
             self._result.append(("line", chords))
         else:
             def do_transpose(chord):
-                print chord
                 if chord is None:
                     return None
                 for c in self.chord_regex.findall(chord):
-                    print c
                     n = note_to_number(c) + self._transpose
                     chord = chord.replace(c, number_to_note(n % 12))
-                print chord
                 return chord
 
             self._result.append(

@@ -1,6 +1,7 @@
 # -*- encoding: utf-8
 
 from string import Template
+from texcaller import escape_latex
 
 def indicate_last(iterable):
     i = 0
@@ -27,16 +28,16 @@ class TexVisitor(object):
         self._subtitle = subtitle
 
     def visit_c(self, comment):
-        self._result.append("\\textbf{%s}" % comment)
+        self._result.append("\\textbf{%s}" % escape_latex(comment))
     
     def visit_ci(self, comment):
-        self._result.append("\\textit{%s}" % comment)
+        self._result.append("\\textit{%s}" % escape_latex(comment))
 
     def visit_soc(self):
         self._result.append("\\textbf{Chorus}\\begin{textit}")
 
     def visit_eoc(self):
-        self._result.append("\\end{textit}")
+        self._result.append("\\end{textit}\\textbf{End of Chorus}")
 
     def visit_nl(self):
         self._result.append("")
@@ -44,6 +45,7 @@ class TexVisitor(object):
     def visit_line(self, chords):
         line = []
         for last, (chord, text) in indicate_last(chords):
+            text = escape_latex(text)
             if chord is None:
                 line.append(text)
             else:
@@ -68,8 +70,8 @@ class TexVisitor(object):
     def result(self):
        return self._template.substitute(
                block="\n".join(self._result),
-               title=self._title,
-               subtitle=self._subtitle,
+               title=escape_latex(self._title),
+               subtitle=escape_latex(self._subtitle),
                diagrams="",
-               )
+               ).encode("UTF-8")
 
