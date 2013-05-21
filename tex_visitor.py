@@ -13,7 +13,10 @@ class _MyTemplate(Template):
     delimiter = "§"
 
 class TexVisitor(object):
-    def __init__(self, template=open("template.tex").read()):
+    def __init__(self, template=None):
+
+        if not template:
+            template = open("template.tex").read()
         self._result = []
         self._template = _MyTemplate(template)
 
