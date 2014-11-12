@@ -18,7 +18,7 @@ shorten_map = {
 }
 shorten = lambda name: lengthen_map.get(name, name)
 
-lengthen_map = dict((v, k) for k, v in shorten_map.iteritems())
+lengthen_map = dict((v, k) for k, v in shorten_map.items())
 lengthen = lambda name: lengthen_map.get(name, name)
 
 def parse_line(string):

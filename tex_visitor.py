@@ -1,7 +1,7 @@
 # -*- encoding: utf-8
 
 from string import Template
-from texcaller import escape_latex
+from _texcaller import escape_latex
 
 def indicate_last(iterable):
     i = 0
@@ -20,6 +20,8 @@ class TexVisitor(object):
             template = open("template.tex").read()
         self._result = []
         self._template = _MyTemplate(template)
+        self._title = ""
+        self._subtitle = ""
 
     def visit_t(self, title):
         self._title = title
@@ -73,5 +75,5 @@ class TexVisitor(object):
                title=escape_latex(self._title),
                subtitle=escape_latex(self._subtitle),
                diagrams="",
-               ).encode("UTF-8")
+               )
 

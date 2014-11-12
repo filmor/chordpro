@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from re import compile
-from itertools import izip
 
 _chord_re = compile(r"([A-G](?:b|#)?(?:\w|/)*)")
 
@@ -11,7 +10,7 @@ def parse_verse(s):
     result = []
 
     k = 0
-    for chords, lyrics in izip(lines, lines[1:]):
+    for chords, lyrics in zip(lines, lines[1:]):
         k += 1
         if k % 2 == 0:
             continue
@@ -39,8 +38,9 @@ if __name__ == '__main__':
     from chordpro_visitor import ChordproVisitor
     from parser import show
     from sys import stdin, stdout
+    from io import TextIOWrapper
 
-    inp = unicode(stdin.read(), encoding="utf-8")
-    out = show(parse_verse(inp), ChordproVisitor).encode("utf-8")
+    inp = TextIOWrapper(stdin.buffer, encoding="utf-8").read()
+    out = show(parse_verse(inp), ChordproVisitor) #.encode("utf-8")
 
     stdout.write(out)

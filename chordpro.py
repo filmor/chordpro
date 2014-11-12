@@ -37,3 +37,4 @@ if __name__ == '__main__':
         parsed = show(parsed, TransposeVisitor, args.transpose)
 
     out.write(show(parsed, visitor[args.format]))
+
